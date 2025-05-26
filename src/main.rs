@@ -1,7 +1,8 @@
-mod constants;
-mod optimised_cios;
-mod vanilla_cios;
-mod yuval_mult;
+// pub so we can use it in examples
+pub mod constants;
+pub mod optimised_cios;
+pub mod vanilla_cios;
+pub mod yuval_mult;
 use std::time::Instant;
 
 use optimised_cios::scalar_mul_unwrapped as cmult_unwrapped;
@@ -75,32 +76,36 @@ fn benchmark_barebones() -> Result<()> {
 
     // Number of trials and warmup iterations
     let trials = 1000;
-    let warmup = 200;
+    // NOTE: I found warmup to make no difference to the results
+    let warmup = 0; //200;
+    println!("Will do {trials} trials with {warmup} warmup iterations");
 
     // Warmup phase
     for _ in 0..warmup {
+        let _ = std::hint::black_box(ymult(a, b));
+        let _ = std::hint::black_box(cmult_unwrapped(a, b));
         let _ = ymult(a, b);
         let _ = cmult_unwrapped(a, b);
         let _ = oldmult(a, b);
     }
 
     // Create or open the CSV file for writing the benchmark data
-    let mut file = File::create("benchmark_data.csv")?;
+    let mut file = File::create(format!("{}/data/benchmark_data.csv", env!("CARGO_MANIFEST_DIR")))?;
     // Write CSV header
     writeln!(file, "Y-mult,G-mult,C-mult")?;
 
     // Collect data for each trial
     for _ in 0..trials {
         let start = Instant::now();
-        let _ = ymult(a, b);
+        let _ = std::hint::black_box(ymult(a, b));
         let elapsed_ymult = start.elapsed().as_nanos();
 
         let start = Instant::now();
-        let _ = cmult_unwrapped(a, b);
+        let _ = std::hint::black_box(cmult_unwrapped(a, b));
         let elapsed_cmult_unwrapped = start.elapsed().as_nanos();
 
         let start = Instant::now();
-        let _ = oldmult(a, b);
+        let _ = std::hint::black_box(oldmult(a, b));
         let elapsed_oldmult = start.elapsed().as_nanos();
 
         // Write the times to the CSV file for each function
@@ -146,21 +151,36 @@ fn test_correctness() -> std::result::Result<(), String> {
 
 fn benchmark_inside_of_arkworks() -> Result<()> {
     // Create or open the CSV file for writing the benchmark data
-    let mut file = File::create("arkworks_benchmark_data.csv")?;
+    let mut file = File::create(format!("{}/data/arkworks_benchmark_data.csv", env!("CARGO_MANIFEST_DIR")))?;
     // Write CSV header
     writeln!(file, "G-mult,Y-mult")?;
 
     let mut total_old: f64 = 0.0;
     let mut total_yuval = 0.0;
     let num_trials = 1000;
+    let m: usize = 10000;
     let pb = ProgressBar::new(num_trials);
-    for _ in 0..num_trials {
+    pb.set_style(
+        indicatif::ProgressStyle::with_template(
+            "[{elapsed_precise}] {bar:40.cyan/blue} {pos:>4}/{len:4} {msg}"
+        )
+        .unwrap(),
+    );
+    for i in 0..num_trials {
         let (tmp1, tmp2) = benchmark_chained_mul_instance();
-        pb.inc(1);
         total_old += tmp1;
         total_yuval += tmp2;
 
-        // Write the times to the CSV file for each function
+        // Update progress bar message
+        let total_mults = (i + 1) as f64 * m as f64;
+        let mults_per_sec_old = total_mults / total_old;
+        let mults_per_sec_new = total_mults / total_yuval;
+        let eta = mults_per_sec_new / mults_per_sec_old;
+        pb.set_message(format!(
+            "G: {mults_per_sec_old:.0} Y: {mults_per_sec_new:.0} η: {eta:.3}"
+        ));
+
+        pb.inc(1);
         writeln!(file, "{tmp1},{tmp2}",)?;
     }
     pb.finish_with_message("Done!");
@@ -174,7 +194,10 @@ fn benchmark_inside_of_arkworks() -> Result<()> {
 
 fn main() {
     match benchmark_barebones() {
-        Ok(_) => println!("Benchmarking completed and results saved to 'benchmark_data.csv'."),
+        Ok(_) => println!(
+            "Benchmarking completed and results saved to '{}/data/benchmark_data.csv'.",
+            env!("CARGO_MANIFEST_DIR")
+        ),
         Err(e) => eprintln!("Error writing benchmark data: {e}"),
     }
     match test_correctness() {

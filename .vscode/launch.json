@@ -1,0 +1,101 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'montgomery_benchmarks'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=minimal_mult"
+                ],
+                "filter": {
+                    "name": "montgomery_benchmarks",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'minimal_mult'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=minimal_mult",
+                    "--package=minimal_mult"
+                ],
+                "filter": {
+                    "name": "minimal_mult",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'minimal_mult'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=minimal_mult",
+                    "--package=minimal_mult"
+                ],
+                "filter": {
+                    "name": "minimal_mult",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'mults'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=mults",
+                    "--package=minimal_mult"
+                ],
+                "filter": {
+                    "name": "mults",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'mults'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=mults",
+                    "--package=minimal_mult"
+                ],
+                "filter": {
+                    "name": "mults",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

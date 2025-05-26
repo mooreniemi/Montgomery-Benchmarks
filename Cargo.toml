@@ -11,4 +11,8 @@ indicatif = "0.17"
 ark-ff = { git = "https://github.com/abiswas3/arkworks-algebra.git", branch = "yuvals-mont-mult" }
 ark-ff-macros = { git = "https://github.com/abiswas3/arkworks-algebra.git", branch = "yuvals-mont-mult" }
 
+[lib]
+name = "minimal_mult"
+path = "src/main.rs"
+
 
