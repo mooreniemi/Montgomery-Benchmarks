@@ -1,5 +1,6 @@
 use minimal_mult::{
-    vanilla_cios::scalar_mul as oldmult,
+    vanilla_cios::scalar_mul as vciosmult,
+    optimised_cios::scalar_mul_unwrapped as ociosmult,
     yuval_mult::scalar_mul as ymult,
 };
 
@@ -19,9 +20,11 @@ fn main() {
     ];
 
     // Run both multiplications
-    let result_old = oldmult(a, b);
-    let result_new = ymult(a, b);
+    let result_vcios = vciosmult(a, b);
+    let result_ocios = ociosmult(a, b);
+    let result_ymult = ymult(a, b);
 
-    println!("Old multiplication result: {result_old:?}");
-    println!("New multiplication result: {result_new:?}");
+    println!("vciosmult result: {result_vcios:?}");
+    println!("ociosmult result: {result_ocios:?}");
+    println!("ymult result: {result_ymult:?}");
 }
