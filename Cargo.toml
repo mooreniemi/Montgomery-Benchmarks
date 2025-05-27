@@ -10,6 +10,7 @@ primitive-types = "0.13.1"
 indicatif = "0.17"
 ark-ff = { git = "https://github.com/abiswas3/arkworks-algebra.git", branch = "yuvals-mont-mult" }
 ark-ff-macros = { git = "https://github.com/abiswas3/arkworks-algebra.git", branch = "yuvals-mont-mult" }
+num-bigint = "0.4"
 
 [lib]
 name = "minimal_mult"

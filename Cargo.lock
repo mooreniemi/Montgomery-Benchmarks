@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "ark-ff"
 version = "0.5.0"
-source = "git+https://github.com/abiswas3/arkworks-algebra.git?branch=yuvals-mont-mult#8400371ac56f496050ea6b05a2ccec18c2588511"
+source = "git+https://github.com/abiswas3/arkworks-algebra.git?branch=yuvals-mont-mult#3e1a2b3963e764aea0407d23d8318b6167ebcb4a"
 dependencies = [
  "ark-ff-asm",
  "ark-ff-macros",
@@ -24,7 +24,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-asm"
 version = "0.5.0"
-source = "git+https://github.com/abiswas3/arkworks-algebra.git?branch=yuvals-mont-mult#8400371ac56f496050ea6b05a2ccec18c2588511"
+source = "git+https://github.com/abiswas3/arkworks-algebra.git?branch=yuvals-mont-mult#3e1a2b3963e764aea0407d23d8318b6167ebcb4a"
 dependencies = [
  "quote",
  "syn",
@@ -45,7 +45,7 @@ dependencies = [
 [[package]]
 name = "ark-serialize"
 version = "0.5.0"
-source = "git+https://github.com/abiswas3/arkworks-algebra.git?branch=yuvals-mont-mult#8400371ac56f496050ea6b05a2ccec18c2588511"
+source = "git+https://github.com/abiswas3/arkworks-algebra.git?branch=yuvals-mont-mult#3e1a2b3963e764aea0407d23d8318b6167ebcb4a"
 dependencies = [
  "ark-std",
  "arrayvec",
@@ -358,6 +358,7 @@ dependencies = [
  "ark-ff-macros",
  "ark-std",
  "indicatif",
+ "num-bigint",
  "primitive-types",
  "seq-macro",
 ]
