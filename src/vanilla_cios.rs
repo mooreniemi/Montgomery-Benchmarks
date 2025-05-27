@@ -68,9 +68,9 @@ pub fn scalar_mul(a: [u64; 4], b: [u64; 4]) -> [u64; 4] {
     t[6] = mac_with_carry(t[6], tmp, constants::U64_P[3], &mut carry);
     _ = adc(&mut t[7], carry, carry2);
 
-    let r = t[4..].try_into().unwrap();
+    let mut r: [u64; 4] = t[4..8].try_into().unwrap();
 
-    subtract_modulus(r, U64_P);
+    subtract_modulus(&mut r, U64_P);
     r
 }
 

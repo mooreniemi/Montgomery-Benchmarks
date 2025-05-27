@@ -10,7 +10,7 @@ pub fn sbb_for_sub_with_borrow(a: &mut u64, b: u64, borrow: u8) -> u8 {
     u8::from(tmp >> 64 == 0)
 }
 
-pub fn subtract_modulus(mut a: [u64; 4], b: [u64; 4]) -> bool {
+pub fn subtract_modulus(a: &mut [u64; 4], b: [u64; 4]) -> bool {
     let mut borrow = 0;
     borrow = sbb_for_sub_with_borrow(&mut a[0], b[0], borrow);
     borrow = sbb_for_sub_with_borrow(&mut a[1], b[1], borrow);
@@ -157,6 +157,6 @@ pub fn scalar_mul_unwrapped(a: [u64; 4], b: [u64; 4]) -> [u64; 4] {
         r[3] = carry1 + carry2;
     }
 
-    subtract_modulus(r, U64_2P);
+    subtract_modulus(&mut r, U64_2P);
     r
 }

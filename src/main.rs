@@ -92,7 +92,7 @@ fn benchmark_barebones() -> Result<()> {
     // Create or open the CSV file for writing the benchmark data
     let mut file = File::create(format!("{}/data/benchmark_data.csv", env!("CARGO_MANIFEST_DIR")))?;
     // Write CSV header
-    writeln!(file, "Y-mult,G-mult,C-mult")?;
+    writeln!(file, "Y-mult,Y-mult2,G-mult,C-mult")?;
 
     // Collect data for each trial
     for _ in 0..trials {
